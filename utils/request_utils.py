@@ -47,5 +47,24 @@ def query_database(database_key_name: str):
     return make_request(request_type="post", url=f"{os.environ['NOTION_API']}/databases/{os.environ[database_key_name]}/query")
 
 
-def update_page(page_key: str, data: Dict):
-    return make_request(request_type="patch", url=f"{os.environ['NOTION_API']}/pages/{page_key.replace('-', '')}", data=data)
+def update_page(page_key: str, new_data: Dict):
+    return make_request(
+        request_type="patch",
+        url=f"{os.environ['NOTION_API']}/pages/{page_key.replace('-', '')}",
+        data={
+            "properties": new_data
+        }
+    )
+
+
+def add_page_to_database(database_key_name: str, page_data: Dict):
+    return make_request(
+        request_type="post",
+        url="https://api.notion.com/v1/pages",
+        data={
+            "parent": {
+                "database_id": os.environ[database_key_name]
+            },
+            "properties": page_data
+        }
+    )
