@@ -4,6 +4,8 @@ from typing import Union, Dict
 
 import requests
 
+NOTION_API = https://api.notion.com/v1
+
 
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):
@@ -52,14 +54,14 @@ def make_request(request_type: str, url: str, data: Union[Dict, None] = None):
 def query_database(database_key_name: str):
     return make_request(
         request_type="post",
-        url=f"{os.environ['NOTION_API']}/databases/{os.environ[database_key_name]}/query"
+        url=f"{NOTION_API}/databases/{os.environ[database_key_name]}/query"
     )
 
 
 def update_page(page_key: str, new_data: Dict):
     return make_request(
         request_type="patch",
-        url=f"{os.environ['NOTION_API']}/pages/{page_key.replace('-', '')}",
+        url=f"{NOTION_API}/pages/{page_key.replace('-', '')}",
         data={
             "properties": new_data
         }
@@ -69,7 +71,7 @@ def update_page(page_key: str, new_data: Dict):
 def add_page_to_database(database_key_name: str, page_data: Dict):
     return make_request(
         request_type="post",
-        url="https://api.notion.com/v1/pages",
+        url=f"{NOTION_API}/pages",
         data={
             "parent": {
                 "database_id": os.environ[database_key_name]
