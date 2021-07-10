@@ -1,0 +1,25 @@
+{
+  "request-headers": {
+    "Notion-Version": "2021-05-13",
+    "Content-Type": "application/json"
+  },
+  "reset-values": {
+    "checkbox": {
+      "checkbox": false
+    },
+    "rich_text": {
+      "rich_text": [
+        {
+          "text": {
+            "content": ""
+          }
+        }
+      ]
+    },
+    "date": {
+      "date": {
+        "start": null
+      }
+    }
+  }
+}
