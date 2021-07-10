@@ -3,7 +3,6 @@ import os
 from typing import Union, Dict
 
 import requests
-import toml as toml
 
 
 class BearerAuth(requests.auth.AuthBase):
@@ -16,8 +15,17 @@ class BearerAuth(requests.auth.AuthBase):
 
 
 def get_headers():
-    config = toml.load("../config.toml")
-    return config["request-headers"]
+    with open("../config.json", 'r') as config_file:
+        config = json.load(config_file)
+        return config["request-headers"]
+
+
+def map_reset_values(date):
+    with open("../config.json", 'r') as config_file:
+        config = json.load(config_file)
+        reset_values = config["reset-values"]
+        reset_values["date"]["date"]["start"] = date
+        return reset_values
 
 
 def make_request(request_type: str, url: str, data: Union[Dict, None] = None):
@@ -31,20 +39,21 @@ def make_request(request_type: str, url: str, data: Union[Dict, None] = None):
     else:
         raise Exception("Invalid Request Type!")
 
-    print(url, data)
-
     res = request_callback(
         url=url,
         headers=get_headers(),
         auth=BearerAuth(os.environ["NOTION_KEY"]),
         data=json.dumps(data) if data is not None else {}
     )
-    print(res)
+
     return res.json()
 
 
 def query_database(database_key_name: str):
-    return make_request(request_type="post", url=f"{os.environ['NOTION_API']}/databases/{os.environ[database_key_name]}/query")
+    return make_request(
+        request_type="post",
+        url=f"{os.environ['NOTION_API']}/databases/{os.environ[database_key_name]}/query"
+    )
 
 
 def update_page(page_key: str, new_data: Dict):
