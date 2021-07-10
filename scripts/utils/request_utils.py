@@ -4,8 +4,9 @@ from typing import Union, Dict
 
 import requests
 
-NOTION_API = https://api.notion.com/v1
+NOTION_API = "https://api.notion.com/v1"
 
+CONFIG_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)
 
 class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token):
@@ -17,13 +18,13 @@ class BearerAuth(requests.auth.AuthBase):
 
 
 def get_headers():
-    with open("../config.json", 'r') as config_file:
+    with open(f"{CONFIG_DIR}/config.json", 'r') as config_file:
         config = json.load(config_file)
         return config["request-headers"]
 
 
 def map_reset_values(date):
-    with open("../config.json", 'r') as config_file:
+    with open(f"{CONFIG_DIR}/config.json", 'r') as config_file:
         config = json.load(config_file)
         reset_values = config["reset-values"]
         reset_values["date"]["date"]["start"] = date
