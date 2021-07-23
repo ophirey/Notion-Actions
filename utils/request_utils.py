@@ -56,6 +56,13 @@ def query_database(database_key_name: str):
     )
 
 
+def get_database(database_key_name: str):
+    return make_request(
+        request_type="get",
+        url=f"{os.environ['NOTION_API']}/databases/{os.environ[database_key_name]}"
+    )
+
+
 def update_page(page_key: str, new_data: Dict):
     return make_request(
         request_type="patch",
