@@ -15,10 +15,4 @@ def create_new_pages_in_db(db_key_name: str, properties: Dict[str, str], num_of_
 if __name__ == '__main__':
     db_properties = get_database("NOTION_HABITS_DB_KEY")["properties"]
     db_properties = {k: db_properties[k]["type"] for k in db_properties}
-    # type_mappings = {
-    #     prop: prev_week_db["results"][0]["properties"][prop]["type"]
-    #     for prop in prev_week_db["results"][0]["properties"]
-    # }
     create_new_pages_in_db("NOTION_HABITS_DB_KEY", db_properties, 7)
-    # archive_past_week(prev_week_db)
-    # update_previous_week([page["id"] for page in prev_week_db["results"]], type_mappings)
