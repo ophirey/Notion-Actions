@@ -12,12 +12,6 @@ def create_new_pages_in_db(db_key_name: str, properties: Dict[str, str], num_of_
         add_page_to_database(db_key_name, data)
 
 
-def archive_past_week(pages: Dict):
-
-    for page_data in [page["properties"] for page in pages["results"]]:
-        add_page_to_database("NOTION_HABITS_ARCHIVE_DB_KEY", page_data)
-
-
 if __name__ == '__main__':
     db_properties = get_database("NOTION_HABITS_DB_KEY")["properties"]
     db_properties = {k: db_properties[k]["type"] for k in db_properties}
